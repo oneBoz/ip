@@ -4,53 +4,68 @@ import java.util.Scanner;
  * @author Ding Yi He
  */
 public class Friday {
+
+    private static void addTask(String s, String[] tasks, int loc) {
+        tasks[loc] = s;
+        System.out.println(String.format("""
+        ____________________________________________________________
+        added: %s
+        ____________________________________________________________""", s));
+    }
+
+    private static void listTasks(String[] tasks, int size) {
+
+        System.out.println("""
+        ____________________________________________________________""");
+        for (int i = 0; i < size; i++) {
+            System.out.println(String.format("%d. %s", i, tasks[i]));
+        }
+
+        System.out.println("""
+        ____________________________________________________________""");
+    }
+
     public static void main(String[] args) {
 
         String intro = """
-                ____________________________________________________________
-                Hello! I'm Friday
-                What can I do for you?
-                ____________________________________________________________
-                        
-                Commands:
-                list
-                blah
-                bye
-                """;
+        ____________________________________________________________
+        Hello! I'm Friday
+        What can I do for you?
+        ____________________________________________________________
+        
+        Commands:
+        list
+        bye
+        """;
 
         String byeMsg = """
-                ____________________________________________________________
-                Bye. Hope to see you again soon!
-                ____________________________________________________________""";
+        ____________________________________________________________
+        Bye. Hope to see you again soon!
+        ____________________________________________________________""";
 
-        String listMsg = """
-                ____________________________________________________________
-                list
-                ____________________________________________________________""";
 
-        String blah = """
-                ____________________________________________________________
-                blah
-                ____________________________________________________________""";
 
 
         boolean exited = false;
+        String[] tasks = new String[100];
+        int loc = 0;
         System.out.println(intro);
         while (!exited) {
             Scanner scan = new Scanner(System.in);
-            switch (scan.nextLine()) {
+            String input = scan.nextLine();
+            switch (input) {
                 case "bye":
                     System.out.println(byeMsg);
                     exited = true;
                     break;
+
                 case "list":
-                    System.out.println(listMsg);
+                    listTasks(tasks, loc);
                     break;
-                case "blah":
-                    System.out.println(blah);
-                    break;
+
                 default:
-                    System.out.println("Invalid command! Please retry!");
+                    addTask(input, tasks, loc);
+                    loc++;
                     break;
 
             }
