@@ -1,15 +1,18 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
-import main.java.task.Task;
-import main.java.task.Deadline;
-import main.java.task.Todo;
-import main.java.task.Event;
-import main.java.exception.InvalidInputFormatException;
+import task.Task;
+import task.Deadline;
+import task.Todo;
+import task.Event;
+import enumeration.CommandType;
+import exception.InvalidInputFormatException;
 
 /**
  * @author A0272287W
  */
 public class Friday {
+
 
     private static void addTask(Task t, ArrayList<Task> tasks) {
         tasks.add(t);
@@ -100,75 +103,74 @@ public class Friday {
             String command = getCommand(input);
             String desc = getDesc(input);
 
-            switch (command) {
-                case "bye":
-                    System.out.println(byeMsg);
-                    exited = true;
-                    break;
+            if (Objects.equals(command, CommandType.BYE.toString())) {
+                System.out.println(byeMsg);
+                exited = true;
 
-                case "list":
-                    listTasks(tasks);
-                    break;
+            } else if (Objects.equals(command, CommandType.LIST.toString())) {
 
-                case "mark":
-                    try {
-                        markTask(tasks, Integer.valueOf(desc) - 1);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid index!");
-                    }
-                    break;
+                listTasks(tasks);
 
-                case "unmark":
-                    try {
-                        unMarkTask(tasks, Integer.valueOf(desc) - 1);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid index!");
-                    }
-                    break;
+            } else if (Objects.equals(command, CommandType.MARK.toString())) {
 
-                case "deadline":
-                    try {
-                        String[] dd = desc.split("/by");
-                        addTask(new Deadline(dd[0].trim(), dd[1].trim()), tasks);
-                        loc++;
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid description!");
-                    }
+                try {
+                    markTask(tasks, Integer.valueOf(desc) - 1);
+                } catch (Exception e) {
+                    System.out.println("Please enter a valid index!");
+                }
 
-                    break;
+            } else if (Objects.equals(command, CommandType.UNMARK.toString())) {
 
-                case "todo":
-                    if (desc.isEmpty()) {
-                        System.out.println("Please enter a valid description!");
-                    } else {
-                        addTask(new Todo(desc), tasks);
-                    }
-                    break;
+                try {
+                    unMarkTask(tasks, Integer.valueOf(desc) - 1);
+                } catch (Exception e) {
+                    System.out.println("Please enter a valid index!");
+                }
 
-                case "event":
-                    try {
-                        String[] e = desc.split("/from");
-                        String[] timing = e[1].split("/to");
-                        addTask(new Event(e[0].trim(), timing[0].trim(), timing[1].trim()), tasks);
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid description!");
-                    }
-                    break;
+            } else if (Objects.equals(command, CommandType.DEADLINE.toString())) {
 
-                case "delete":
-                    try {
-                        deleteTask(tasks, Integer.valueOf(desc) - 1);
+                try {
+                    String[] dd = desc.split("/by");
+                    addTask(new Deadline(dd[0].trim(), dd[1].trim()), tasks);
+                    loc++;
+                } catch (Exception e) {
+                    System.out.println("Please enter a valid description!");
+                }
 
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid index!");
-                    }
-                    break;
+            } else if (Objects.equals(command, CommandType.TODO.toString())) {
 
-                default:
-                    System.out.println("Please enter a valid command!");
-                    break;
+                if (desc.isEmpty()) {
+                    System.out.println("Please enter a valid description!");
+                } else {
+                    addTask(new Todo(desc), tasks);
+                }
+
+            } else if (Objects.equals(command, CommandType.EVENT.toString())) {
+
+                try {
+                    String[] e = desc.split("/from");
+                    String[] timing = e[1].split("/to");
+                    addTask(new Event(e[0].trim(), timing[0].trim(), timing[1].trim()), tasks);
+                } catch (Exception e) {
+                    System.out.println("Please enter a valid description!");
+                }
+
+            } else if (Objects.equals(command, CommandType.DELETE.toString())) {
+
+                try {
+                    deleteTask(tasks, Integer.valueOf(desc) - 1);
+
+                } catch (Exception e) {
+                    System.out.println("Please enter a valid index!");
+                }
+
+            } else {
+
+                System.out.println("Please enter a valid command!");
 
             }
+
+
             System.out.println("""
                     ____________________________________________________________""");
 

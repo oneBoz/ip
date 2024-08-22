@@ -1,5 +1,4 @@
-package main.java.task;
-import main.java.exception.InvalidInputFormatException;
+package task;
 
 public class Todo extends Task {
 
