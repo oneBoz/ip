@@ -1,5 +1,10 @@
-import java.util.Arrays;
 import java.util.Scanner;
+import main.java.task.Task;
+import main.java.task.Deadline;
+import main.java.task.Todo;
+import main.java.task.Event;
+import main.java.exception.InvalidInputFormatException;
+
 /**
  * @author Ding Yi He
  */
@@ -46,7 +51,7 @@ public class Friday {
     }
 
     private static String getDesc(String input) {
-        return input.replace(getCommand(input) + " ", "");
+        return input.replace(getCommand(input), "").trim();
     }
 
     public static void main(String[] args) {
@@ -81,6 +86,7 @@ public class Friday {
             String input = scan.nextLine();
             String command = getCommand(input);
             String desc = getDesc(input);
+
             switch (command) {
                 case "bye":
                     System.out.println(byeMsg);
@@ -100,9 +106,14 @@ public class Friday {
                     break;
 
                 case "deadline":
-                    String[] dd = desc.split(" /by ");
-                    addTask(new Deadline(dd[0], dd[1]), tasks, loc);
-                    loc++;
+                    try {
+                        String[] dd = desc.split("/by");
+                        addTask(new Deadline(dd[0].trim(), dd[1].trim()), tasks, loc);
+                        loc++;
+                    } catch (Exception e) {
+                        System.out.println("Please enter a valid description!");
+                    }
+
                     break;
 
                 case "todo":
@@ -111,10 +122,14 @@ public class Friday {
                     break;
 
                 case "event":
-                    String[] e = desc.split(" /from ");
-                    String[] timing = e[1].split(" /to ");
-                    addTask(new Event(e[0], timing[0], timing[1]), tasks, loc);
-                    loc++;
+                    try {
+                        String[] e = desc.split("/from");
+                        String[] timing = e[1].split("/to");
+                        addTask(new Event(e[0].trim(), timing[0].trim(), timing[1].trim()), tasks, loc);
+                        loc++;
+                    } catch (Exception e) {
+                        System.out.println("Please enter a valid description!");
+                    }
                     break;
 
                 default:
