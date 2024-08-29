@@ -5,11 +5,13 @@ import task.Task;
 import task.Deadline;
 import task.Todo;
 import task.Event;
+import storage.Storage;
 import enumeration.CommandType;
 import exception.InvalidInputFormatException;
 
 /**
  * @author A0272287W
+ * Chatbot
  */
 public class Friday {
 
@@ -68,7 +70,17 @@ public class Friday {
         return input.replace(getCommand(input), "").trim();
     }
 
+    private static void save(String filepath, ArrayList<Task> tasks) {
+        Storage storage = new Storage(filepath);
+        storage.write(tasks);
 
+    }
+    
+    private static ArrayList<Task> read(String filepath) {
+        Storage storage = new Storage(filepath);
+        ArrayList<Task> data = storage.read();
+        return data;
+    }
 
     public static void main(String[] args) {
 
@@ -94,7 +106,8 @@ public class Friday {
 
 
         boolean exited = false;
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = read("Friday.txt");
+//        ArrayList<Task> tasks = new ArrayList<>();
         int loc = 0;
         System.out.println(intro);
         while (!exited) {
@@ -105,6 +118,7 @@ public class Friday {
 
             if (Objects.equals(command, CommandType.BYE.toString())) {
                 System.out.println(byeMsg);
+                save("Friday.txt", tasks);
                 exited = true;
 
             } else if (Objects.equals(command, CommandType.LIST.toString())) {
