@@ -33,6 +33,9 @@ public abstract class Task {
 
     public abstract String toRawString();
 
+    public boolean contains(String text) {
+        return this.description.contains(text);
+    }
     @Override
     public boolean equals(Object task) {
         if (task == this) {
