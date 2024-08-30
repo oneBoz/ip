@@ -111,6 +111,8 @@ public class Parser {
             return CommandType.EVENT;
         } else if (Objects.equals(command, CommandType.DELETE.toString())) {
             return CommandType.DELETE;
+        } else if (Objects.equals(command, CommandType.FIND.toString())) {
+            return CommandType.FIND;
         } else {
             throw new InvalidInputFormatException("Please enter a valid command!");
         }

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 
 import exception.InvalidIndexException;
+import parser.Command;
 import task.Task;
 
 import storage.Storage;
@@ -29,6 +30,17 @@ public class Friday {
         System.out.println("____________________________________________________________\nHere are the tasks in your list: ");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
+        }
+
+    }
+
+    private static void findTasks(ArrayList<Task> tasks, String text) {
+
+        System.out.println("____________________________________________________________\nHere are the matching tasks in your list: ");
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).contains(text)) {
+                System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
+            }
         }
 
     }
@@ -65,13 +77,6 @@ public class Friday {
         System.out.println(String.format(" Now you have %d tasks in the list.", tasks.size()));
     }
 
-    private static String getCommand(String input) {
-        return input.split(" ")[0];
-    }
-
-    private static String getDesc(String input) {
-        return input.replace(getCommand(input), "").trim();
-    }
 
     private static void save(String filepath, ArrayList<Task> tasks) {
         Storage storage = new Storage(filepath);
@@ -112,7 +117,6 @@ public class Friday {
 
         boolean exited = false;
         ArrayList<Task> tasks = read("Friday.txt");
-//        ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(intro);
 
 
@@ -181,6 +185,8 @@ public class Friday {
                     System.out.println(String.format("  %s", iie.getMessage()));
                 }
 
+            } else if (command == CommandType.FIND) {
+                findTasks(tasks, desc);
             }
 
 

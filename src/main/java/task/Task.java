@@ -73,6 +73,7 @@ public abstract class Task {
      * @param task the object to compare this task against
      * @return {@code true} if the specified object is equal to this task, {@code false} otherwise
      */
+
     @Override
     public boolean equals(Object task) {
         if (task == this) {
@@ -81,6 +82,9 @@ public abstract class Task {
             return this.toRawString().equals(((Task) task).toRawString());
         }
         return false;
+    }
+    public boolean contains(String text) {
+        return this.description.contains(text);
     }
 }
 
