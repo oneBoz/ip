@@ -83,6 +83,15 @@ public abstract class Task {
         }
         return false;
     }
+
+    /**
+     * Checks if the task description contains the specified text.
+     * This method returns {@code true} if the description includes the given text,
+     * and {@code false} otherwise.
+     *
+     * @param text the text to search for within the task description
+     * @return {@code true} if the description contains the specified text; {@code false} otherwise
+     */
     public boolean contains(String text) {
         return this.description.contains(text);
     }
