@@ -1,2 +1,4 @@
 [T][ ] hi
-[D][ ] CS2103T IP (by: Friday)
+[D][X] CS2103T IP (by: Friday)
+[E][ ] hi (from: tues to: wed)
+[D][ ] hi (by: 2024-08-30)

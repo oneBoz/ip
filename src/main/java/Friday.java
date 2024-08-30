@@ -1,13 +1,13 @@
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+
+
+import exception.InvalidIndexException;
 import task.Task;
-import task.Deadline;
-import task.Todo;
-import task.Event;
+
 import storage.Storage;
 import enumeration.CommandType;
 import exception.InvalidInputFormatException;
+import parser.Parser;
 
 /**
  * @author A0272287W
@@ -36,7 +36,10 @@ public class Friday {
 
     }
 
-    private static void markTask(ArrayList<Task> tasks, int loc) {
+    private static void markTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException {
+        if (loc < 0 || loc >= tasks.size()) {
+            throw new InvalidIndexException("Please enter a valid index!");
+        }
         tasks.get(loc).markAsDone();
         System.out.println(String.format("""
         ____________________________________________________________
@@ -44,7 +47,10 @@ public class Friday {
             %s""", tasks.get(loc)));
     }
 
-    private static void unMarkTask(ArrayList<Task> tasks, int loc) {
+    private static void unMarkTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException{
+        if (loc < 0 || loc >= tasks.size()) {
+            throw new InvalidIndexException("Please enter a valid index!");
+        }
         tasks.get(loc).unmark();
         System.out.println(String.format("""
         ____________________________________________________________
@@ -52,7 +58,10 @@ public class Friday {
            %s""", tasks.get(loc)));
     }
 
-    private static void deleteTask(ArrayList<Task> tasks, int loc) {
+    private static void deleteTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException{
+        if (loc < 0 || loc >= tasks.size()) {
+            throw new InvalidIndexException("Please enter a valid index!");
+        }
         Task tmp = tasks.get(loc);
         tasks.remove(loc);
         System.out.println(String.format("""
@@ -83,6 +92,10 @@ public class Friday {
     }
 
     public static void main(String[] args) {
+        start();
+    }
+
+    private static void start() {
 
         String intro = """
         ____________________________________________________________
@@ -108,79 +121,76 @@ public class Friday {
         boolean exited = false;
         ArrayList<Task> tasks = read("Friday.txt");
 //        ArrayList<Task> tasks = new ArrayList<>();
-        int loc = 0;
         System.out.println(intro);
-        while (!exited) {
-            Scanner scan = new Scanner(System.in);
-            String input = scan.nextLine();
-            String command = getCommand(input);
-            String desc = getDesc(input);
 
-            if (Objects.equals(command, CommandType.BYE.toString())) {
+
+        while (!exited) {
+            String input = Parser.scan();
+            CommandType command;
+            try {
+                command = Parser.createCommandFromInput(input);
+            } catch (InvalidInputFormatException iife) {
+                System.out.println(String.format("""
+                ____________________________________________________________
+                  %s
+                ____________________________________________________________""", iife.getMessage()));
+                continue;
+            }
+
+            System.out.println(command);
+            String desc = Parser.getDesc(input);
+
+            if (command == CommandType.BYE) {
                 System.out.println(byeMsg);
                 save("Friday.txt", tasks);
                 exited = true;
 
-            } else if (Objects.equals(command, CommandType.LIST.toString())) {
+            } else if (command == CommandType.LIST) {
 
                 listTasks(tasks);
 
-            } else if (Objects.equals(command, CommandType.MARK.toString())) {
+            } else if (command == CommandType.MARK) {
 
                 try {
                     markTask(tasks, Integer.valueOf(desc) - 1);
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid index!");
+                } catch (InvalidIndexException iie) {
+                    System.out.println(String.format("""
+                    ____________________________________________________________
+                      %s""", iie.getMessage()));
                 }
 
-            } else if (Objects.equals(command, CommandType.UNMARK.toString())) {
+            } else if (command == CommandType.UNMARK) {
 
                 try {
                     unMarkTask(tasks, Integer.valueOf(desc) - 1);
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid index!");
+                } catch (InvalidIndexException iie) {
+                    System.out.println(String.format("""
+                    ____________________________________________________________
+                      %s""", iie.getMessage()));
                 }
 
-            } else if (Objects.equals(command, CommandType.DEADLINE.toString())) {
+            } else if (command == CommandType.DEADLINE ||
+                    command == CommandType.TODO ||
+                    command == CommandType.EVENT) {
 
                 try {
-                    String[] dd = desc.split("/by");
-                    addTask(new Deadline(dd[0].trim(), dd[1].trim()), tasks);
-                    loc++;
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid description!");
+                    addTask(Parser.createTaskFromInput(input), tasks);
+                } catch (InvalidInputFormatException iife) {
+                    System.out.println(String.format("""
+                    ____________________________________________________________
+                      %s""", iife.getMessage()));
                 }
 
-            } else if (Objects.equals(command, CommandType.TODO.toString())) {
 
-                if (desc.isEmpty()) {
-                    System.out.println("Please enter a valid description!");
-                } else {
-                    addTask(new Todo(desc), tasks);
-                }
-
-            } else if (Objects.equals(command, CommandType.EVENT.toString())) {
-
-                try {
-                    String[] e = desc.split("/from");
-                    String[] timing = e[1].split("/to");
-                    addTask(new Event(e[0].trim(), timing[0].trim(), timing[1].trim()), tasks);
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid description!");
-                }
-
-            } else if (Objects.equals(command, CommandType.DELETE.toString())) {
+            } else if (command == CommandType.DELETE) {
 
                 try {
                     deleteTask(tasks, Integer.valueOf(desc) - 1);
-
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid index!");
+                } catch (InvalidIndexException iie) {
+                    System.out.println(String.format("""
+                    ____________________________________________________________
+                      %s""", iie.getMessage()));
                 }
-
-            } else {
-
-                System.out.println("Please enter a valid command!");
 
             }
 

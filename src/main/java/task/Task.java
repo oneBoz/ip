@@ -30,5 +30,7 @@ public abstract class Task {
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), this.description);
     }
+
+    public abstract String toRawString();
 }
 
