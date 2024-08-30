@@ -69,6 +69,11 @@ public class Parser {
         return input.split(" ")[0];
     }
 
+    /**
+     * Removes command word from input line
+     * @param input
+     * @return
+     */
     public static String getDesc(String input) {
         return input.replaceFirst(getCommand(input), "").trim();
     }
@@ -97,8 +102,6 @@ public class Parser {
             return CommandType.EVENT;
         } else if (Objects.equals(command, CommandType.DELETE.toString())) {
             return CommandType.DELETE;
-        } else if (Objects.equals(command, CommandType.GETDATE.toString())) {
-            return CommandType.GETDATE;
         } else {
             throw new InvalidInputFormatException("Please enter a valid command!");
         }

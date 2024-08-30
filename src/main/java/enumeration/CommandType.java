@@ -8,9 +8,7 @@ public enum CommandType{
     DEADLINE("deadline"),
     TODO("todo"),
     EVENT("event"),
-    BYE("bye"),
-    GETDATE("getDate");
-
+    BYE("bye");
 
     private final String type;
 

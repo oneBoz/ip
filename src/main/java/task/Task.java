@@ -32,5 +32,15 @@ public abstract class Task {
     }
 
     public abstract String toRawString();
+
+    @Override
+    public boolean equals(Object task) {
+        if (task == this) {
+            return true;
+        } else if (task instanceof Task) {
+            return this.toRawString().equals(((Task) task).toRawString());
+        }
+        return false;
+    }
 }
 
