@@ -16,17 +16,24 @@ public class Storage {
     private File file;
 
     /**
-     * Constructor for Storage
-     * @param filepath
+     * Constructs a new {@code Storage} object with the specified file path.
+     * The file path is used to initialize the {@code File} object where tasks will be read from
+     * or written to.
+     *
+     * @param filepath the path to the file used for storing tasks
      */
     public Storage(String filepath) {
         file = new File(filepath);
     }
 
     /**
-     * reads the data from the file
+     * Reads tasks from a file and returns them as an {@code ArrayList} of {@code Task} objects.
+     * The file is read line by line, and each line is parsed to create the appropriate task
+     * based on its type (TODO, DEADLINE, or EVENT). If a line indicates that a task is marked as done,
+     * the corresponding task is marked as completed. If the file does not exist, it is created.
+     * In case of any errors during file operations, an error message is printed.
      *
-     * @return a Task array containing all the tasks
+     * @return an {@code ArrayList} containing the tasks read from the file
      */
     public ArrayList<Task> read() {
         try {
@@ -88,8 +95,12 @@ public class Storage {
     }
 
     /**
-     * Writes data into file
+     * Writes the provided list of {@code Task} objects to a file.
+     * Each task is converted to its raw string representation and written to the file,
+     * with each task on a new line. If an {@code IOException} occurs during the writing process,
+     * an error message is printed.
      *
+     * @param tasks the list of {@code Task} objects to be written to the file
      */
     public void write(ArrayList<Task> tasks) {
         try {

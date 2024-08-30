@@ -85,6 +85,12 @@ public class Friday {
         return data;
     }
 
+    /**
+     * The main method serves as the entry point for the application.
+     * It initiates the program by calling the {@code start} method.
+     *
+     * @param args command-line arguments passed to the program (not used in this implementation).
+     */
     public static void main(String[] args) {
         start();
     }
