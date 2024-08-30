@@ -2,3 +2,4 @@
 [D][X] CS2103T IP (by: Friday)
 [E][ ] hi (from: tues to: wed)
 [D][ ] hi (by: 2024-08-30)
+[E][X] natlan exploration (from: 1900-01-01 to: 2025-01-01)

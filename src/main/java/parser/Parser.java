@@ -127,13 +127,6 @@ public class Parser {
         }
     }
 
-    private LocalDate getDate(String date) {
-        return LocalDate.parse(date.replace("/", "-"));
-    }
-
-
-
-
 
 
 

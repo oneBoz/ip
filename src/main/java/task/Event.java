@@ -1,6 +1,7 @@
 package task;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Event extends Task {
@@ -27,7 +28,12 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        if (isInDateFormat) {
+            return "[E]" + super.toString() + " (from: " +
+                    fromInDateFormat.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " to: " +
+                    toInDateFormat.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+        }
+        return this.toRawString();
     }
 
     @Override
