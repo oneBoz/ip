@@ -5,7 +5,8 @@ public abstract class Task {
 
     /**
      * Constructs a new {@code Task} with the specified description.
-     * The task is initially marked as not done.
+     * The task is initialized with the given description and its status is set to not done by default.
+     * This constructor is intended to be used by concrete subclasses of {@code Task}.
      *
      * @param description the description of the task
      */
