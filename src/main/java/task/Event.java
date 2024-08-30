@@ -40,4 +40,5 @@ public class Event extends Task {
     public String toRawString() {
         return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
     }
+    
 }
