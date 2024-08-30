@@ -46,9 +46,7 @@ public class Parser {
             return out;
 
         } catch (FileNotFoundException fnfe) {
-            System.out.println("""
-                ____________________________________________________________
-                Error reading from input file!""");
+            System.out.println("____________________________________________________________\nError reading from input file!");
 
         }
         return new ArrayList<>();
@@ -120,10 +118,19 @@ public class Parser {
             return new Todo(desc);
         } else if (command == CommandType.EVENT) {
             String[] e = desc.split("/from");
+            if (e.length < 2) {
+                throw new InvalidInputFormatException("Please enter a valid command!");
+            }
             String[] timing = e[1].split("/to");
+            if (timing.length < 2) {
+                throw new InvalidInputFormatException("Please enter a valid command!");
+            }
             return new Event(e[0].trim(), timing[0].trim(), timing[1].trim());
         } else if (command == CommandType.DEADLINE) {
             String[] dl = desc.split("/by");
+            if (dl.length < 2) {
+                throw new InvalidInputFormatException("Please enter a valid command!");
+            }
             return new Deadline(dl[0].trim(), dl[1].trim());
         } else {
             throw new InvalidInputFormatException("Error creating Task!");

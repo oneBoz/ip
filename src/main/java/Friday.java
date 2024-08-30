@@ -18,18 +18,15 @@ public class Friday {
 
     private static void addTask(Task t, ArrayList<Task> tasks) {
         tasks.add(t);
-        System.out.println(String.format("""
-        ____________________________________________________________
-         Got it. I've added this task: 
-          %s
-         Now you have %d tasks in the list.""", t, tasks.size()));
+        System.out.println("____________________________________________________________");
+        System.out.println(" Got it. I've added this task: ");
+        System.out.println(String.format("  %s", t));
+        System.out.println(String.format(" Now you have %d tasks in the list.",tasks.size()));
     }
 
     private static void listTasks(ArrayList<Task> tasks) {
 
-        System.out.println("""
-        ____________________________________________________________
-         Here are the tasks in your list: """);
+        System.out.println("____________________________________________________________\nHere are the tasks in your list: ");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
         }
@@ -41,10 +38,9 @@ public class Friday {
             throw new InvalidIndexException("Please enter a valid index!");
         }
         tasks.get(loc).markAsDone();
-        System.out.println(String.format("""
-        ____________________________________________________________
-         Nice! I've marked this task as done:
-            %s""", tasks.get(loc)));
+        System.out.println("____________________________________________________________");
+        System.out.println(" Nice! I've marked this task as done:");
+        System.out.println(String.format("    %s", tasks.get(loc)));
     }
 
     private static void unMarkTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException{
@@ -52,10 +48,9 @@ public class Friday {
             throw new InvalidIndexException("Please enter a valid index!");
         }
         tasks.get(loc).unmark();
-        System.out.println(String.format("""
-        ____________________________________________________________
-         OK, I've marked this task as not done yet:
-           %s""", tasks.get(loc)));
+        System.out.println("____________________________________________________________");
+        System.out.println(" OK, I've marked this task as not done yet:");
+        System.out.println(String.format("   %s", tasks.get(loc)));
     }
 
     private static void deleteTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException{
@@ -64,11 +59,10 @@ public class Friday {
         }
         Task tmp = tasks.get(loc);
         tasks.remove(loc);
-        System.out.println(String.format("""
-        ____________________________________________________________
-         Noted. I've removed this task:
-           %s
-         Now you have %d tasks in the list.""", tmp, tasks.size()));
+        System.out.println("____________________________________________________________");
+        System.out.println(" Noted. I've removed this task:");
+        System.out.println(String.format("   %s", tmp));
+        System.out.println(String.format(" Now you have %d tasks in the list.", tasks.size()));
     }
 
     private static String getCommand(String input) {
@@ -97,23 +91,15 @@ public class Friday {
 
     private static void start() {
 
-        String intro = """
-        ____________________________________________________________
-         Hello! I'm Friday
-         What can I do for you?
-        ____________________________________________________________
-        
-         Commands:
-         list
-         bye
-         todo
-         deadline
-         event
-        ____________________________________________________________""";
+        String intro = "____________________________________________________________\n" +
+                "Hello! I'm Friday\n" +
+                "What can I do for you?\n" +
+                "____________________________________________________________\n\n" +
+                "Commands:\n" + "list\n" + "bye\n" + "todo\n" + "deadline\n" + "event\n" +
+        "____________________________________________________________\n";
 
-        String byeMsg = """
-        ____________________________________________________________
-        Bye. Hope to see you again soon!""";
+        String byeMsg = "____________________________________________________________\n" +
+                "Bye. Hope to see you again soon!";
 
 
 
@@ -130,10 +116,10 @@ public class Friday {
             try {
                 command = Parser.createCommandFromInput(input);
             } catch (InvalidInputFormatException iife) {
-                System.out.println(String.format("""
-                ____________________________________________________________
-                  %s
-                ____________________________________________________________""", iife.getMessage()));
+                System.out.println("____________________________________________________________");
+                System.out.println(String.format("  %s", iife.getMessage()));
+                System.out.println("____________________________________________________________");
+
                 continue;
             }
 
@@ -154,9 +140,9 @@ public class Friday {
                 try {
                     markTask(tasks, Integer.valueOf(desc) - 1);
                 } catch (InvalidIndexException iie) {
-                    System.out.println(String.format("""
-                    ____________________________________________________________
-                      %s""", iie.getMessage()));
+
+                    System.out.println("____________________________________________________________");
+                    System.out.println(String.format("  %s", iie.getMessage()));
                 }
 
             } else if (command == CommandType.UNMARK) {
@@ -164,9 +150,8 @@ public class Friday {
                 try {
                     unMarkTask(tasks, Integer.valueOf(desc) - 1);
                 } catch (InvalidIndexException iie) {
-                    System.out.println(String.format("""
-                    ____________________________________________________________
-                      %s""", iie.getMessage()));
+                    System.out.println("____________________________________________________________");
+                    System.out.println(String.format("  %s", iie.getMessage()));
                 }
 
             } else if (command == CommandType.DEADLINE ||
@@ -176,9 +161,8 @@ public class Friday {
                 try {
                     addTask(Parser.createTaskFromInput(input), tasks);
                 } catch (InvalidInputFormatException iife) {
-                    System.out.println(String.format("""
-                    ____________________________________________________________
-                      %s""", iife.getMessage()));
+                    System.out.println("____________________________________________________________");
+                    System.out.println(String.format("  %s", iife.getMessage()));
                 }
 
 
@@ -187,16 +171,14 @@ public class Friday {
                 try {
                     deleteTask(tasks, Integer.valueOf(desc) - 1);
                 } catch (InvalidIndexException iie) {
-                    System.out.println(String.format("""
-                    ____________________________________________________________
-                      %s""", iie.getMessage()));
+                    System.out.println("____________________________________________________________");
+                    System.out.println(String.format("  %s", iie.getMessage()));
                 }
 
             }
 
 
-            System.out.println("""
-                    ____________________________________________________________""");
+            System.out.println("____________________________________________________________");
 
         }
 

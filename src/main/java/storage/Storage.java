@@ -30,9 +30,7 @@ public class Storage {
      */
     public ArrayList<Task> read() {
         try {
-            System.out.println("""
-                    ____________________________________________________________
-                      Retrieving inputs ...""");
+            System.out.println("____________________________________________________________\nRetrieving inputs ...");
             Scanner sc = new Scanner(file);
             ArrayList<Task> out = new ArrayList<>();
             while (sc.hasNextLine()) {
@@ -79,9 +77,8 @@ public class Storage {
                 FileWriter fw = new FileWriter(file);
                 fw.close();
             } catch (IOException ioe) {
-                System.out.println("""
-                    ____________________________________________________________
-                      Error creating storage ...""");
+                System.out.println("____________________________________________________________");
+                System.out.println("  Error creating storage ...");
             }
 
 
@@ -104,13 +101,11 @@ public class Storage {
             }
             fw.write(sb.toString());
             fw.close();
-            System.out.println("""
-                ____________________________________________________________
-                  Data saved""");
+            System.out.println("____________________________________________________________");
+            System.out.println("  Data saved!");
         } catch (IOException ioe) {
-            System.out.println("""
-                ____________________________________________________________
-                  Error saving!""");
+            System.out.println("____________________________________________________________");
+            System.out.println("  Error saving ...");
         }
     }
 
