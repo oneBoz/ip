@@ -1,6 +1,6 @@
 package enumeration;
 
-public enum CommandType{
+public enum CommandType {
     LIST("list"),
     MARK("mark"),
     UNMARK("unmark"),
@@ -21,7 +21,7 @@ public enum CommandType{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return type;
     }
 
