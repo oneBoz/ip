@@ -34,7 +34,7 @@ public class ParserTest {
         assertEquals("[D][ ] CS2103T iP (by: 2024-08-30)", d.toRawString());
         assertEquals("[D][X] CS2103T iP (by: 2024-08-30)", d1.toRawString());
         assertEquals("[D][X] CS2103T iP (by: Aug 30 2024)", d1.toString());
-        assertEquals("[D][ ] CS2103T iP (by: Friday)", d2.toString());
+        assertEquals("[D][ ] CS2103T iP (by: gui.Friday)", d2.toString());
     }
 
     @Test
