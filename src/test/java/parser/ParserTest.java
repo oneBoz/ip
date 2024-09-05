@@ -1,20 +1,19 @@
 package parser;
 
-import enumeration.CommandType;
-import exception.InvalidInputFormatException;
-import task.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import enumeration.CommandType;
+import exception.InvalidInputFormatException;
+import task.Task;
 
 public class ParserTest {
     @Test
-    public void testCreateTaskFromInput_Event() throws InvalidInputFormatException{
-        Task e, e1, e2;
-
-        e = Parser.createTaskFromInput("event natlan exploration /from 1900-01-01 /to 2025-01-01");
-        e1 = Parser.createTaskFromInput("event natlan exploration/from1900-01-01/to2025-01-01");
-        e2 = Parser.createTaskFromInput("event natlan exploration/fromtues/towed");
+    public void testCreateTaskFromInputEvent() throws InvalidInputFormatException {
+        Task e = Parser.createTaskFromInput("event natlan exploration /from 1900-01-01 /to 2025-01-01");
+        Task e1 = Parser.createTaskFromInput("event natlan exploration/from1900-01-01/to2025-01-01");
+        Task e2 = Parser.createTaskFromInput("event natlan exploration/fromtues/towed");
 
 
         e1.markAsDone();
@@ -25,12 +24,11 @@ public class ParserTest {
     }
 
     @Test
-    public void testCreateTaskFromInput_Deadline() throws InvalidInputFormatException{
-        Task d, d1, d2 = null;
+    public void testCreateTaskFromInputDeadline() throws InvalidInputFormatException {
 
-        d = Parser.createTaskFromInput("deadline CS2103T iP /by 2024-08-30");
-        d1 = Parser.createTaskFromInput("deadline CS2103T iP/by2024-08-30");
-        d2 = Parser.createTaskFromInput("deadline CS2103T iP/byFriday");
+        Task d = Parser.createTaskFromInput("deadline CS2103T iP /by 2024-08-30");
+        Task d1 = Parser.createTaskFromInput("deadline CS2103T iP/by2024-08-30");
+        Task d2 = Parser.createTaskFromInput("deadline CS2103T iP/byFriday");
 
         d1.markAsDone();
         assertEquals("[D][ ] CS2103T iP (by: 2024-08-30)", d.toRawString());
@@ -40,11 +38,9 @@ public class ParserTest {
     }
 
     @Test
-    public void testCreateTaskFromInput_Todo() throws InvalidInputFormatException {
-        Task t, t1, t2 = null;
-
-        t = Parser.createTaskFromInput("todo CS2103T iP ");
-        t1 = Parser.createTaskFromInput("todo CS2103T iP");
+    public void testCreateTaskFromInputTodo() throws InvalidInputFormatException {
+        Task t = Parser.createTaskFromInput("todo CS2103T iP ");
+        Task t1 = Parser.createTaskFromInput("todo CS2103T iP");
 
         t1.markAsDone();
         assertEquals("[T][ ] CS2103T iP", t.toRawString());

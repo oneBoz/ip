@@ -1,31 +1,26 @@
 package parser;
 
-import exception.InvalidInputFormatException;
-
-import enumeration.CommandType;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-
-import task.Task;
+import enumeration.CommandType;
+import exception.InvalidInputFormatException;
 import task.Deadline;
-import task.Todo;
 import task.Event;
+import task.Task;
+import task.Todo;
+
 
 /**
  * Parser class that handles user inputs
  */
 public class Parser {
 
-    public Parser(){
+    public Parser() {
 
     }
 
@@ -50,7 +45,8 @@ public class Parser {
             return out;
 
         } catch (FileNotFoundException fnfe) {
-            System.out.println("____________________________________________________________\nError reading from input file!");
+            System.out.println("____________________________________________________________");
+            System.out.println("  Error reading from input file!");
 
         }
         return new ArrayList<>();
@@ -93,7 +89,7 @@ public class Parser {
      * @return the {@code CommandType} corresponding to the input command
      * @throws InvalidInputFormatException if the input command does not match any known command types
      */
-    public static CommandType createCommandFromInput(String input) throws InvalidInputFormatException{
+    public static CommandType createCommandFromInput(String input) throws InvalidInputFormatException {
         String command = getCommand(input);
         if (Objects.equals(command, CommandType.BYE.toString())) {
             return CommandType.BYE;

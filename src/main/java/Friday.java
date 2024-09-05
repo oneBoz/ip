@@ -1,14 +1,11 @@
 import java.util.ArrayList;
 
-
-import exception.InvalidIndexException;
-import parser.Command;
-import task.Task;
-
-import storage.Storage;
 import enumeration.CommandType;
+import exception.InvalidIndexException;
 import exception.InvalidInputFormatException;
 import parser.Parser;
+import storage.Storage;
+import task.Task;
 
 /**
  * @author A0272287W
@@ -22,12 +19,13 @@ public class Friday {
         System.out.println("____________________________________________________________");
         System.out.println(" Got it. I've added this task: ");
         System.out.println(String.format("  %s", t));
-        System.out.println(String.format(" Now you have %d tasks in the list.",tasks.size()));
+        System.out.println(String.format(" Now you have %d tasks in the list.", tasks.size()));
     }
 
     private static void listTasks(ArrayList<Task> tasks) {
 
-        System.out.println("____________________________________________________________\nHere are the tasks in your list: ");
+        System.out.println("____________________________________________________________");
+        System.out.println("Here are the tasks in your list: ");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
         }
@@ -36,7 +34,8 @@ public class Friday {
 
     private static void findTasks(ArrayList<Task> tasks, String text) {
 
-        System.out.println("____________________________________________________________\nHere are the matching tasks in your list: ");
+        System.out.println("____________________________________________________________");
+        System.out.println("Here are the matching tasks in your list: ");
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).contains(text)) {
                 System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
@@ -55,7 +54,7 @@ public class Friday {
         System.out.println(String.format("    %s", tasks.get(loc)));
     }
 
-    private static void unMarkTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException{
+    private static void unMarkTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException {
         if (loc < 0 || loc >= tasks.size()) {
             throw new InvalidIndexException("Please enter a valid index!");
         }
@@ -65,7 +64,7 @@ public class Friday {
         System.out.println(String.format("   %s", tasks.get(loc)));
     }
 
-    private static void deleteTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException{
+    private static void deleteTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException {
         if (loc < 0 || loc >= tasks.size()) {
             throw new InvalidIndexException("Please enter a valid index!");
         }
@@ -81,9 +80,8 @@ public class Friday {
     private static void save(String filepath, ArrayList<Task> tasks) {
         Storage storage = new Storage(filepath);
         storage.write(tasks);
-
     }
-    
+
     private static ArrayList<Task> read(String filepath) {
         Storage storage = new Storage(filepath);
         ArrayList<Task> data = storage.read();
@@ -102,15 +100,15 @@ public class Friday {
 
     private static void start() {
 
-        String intro = "____________________________________________________________\n" +
-                "Hello! I'm Friday\n" +
-                "What can I do for you?\n" +
-                "____________________________________________________________\n\n" +
-                "Commands:\n" + "list\n" + "bye\n" + "todo\n" + "deadline\n" + "event\n" +
-                "____________________________________________________________\n";
+        String intro = "____________________________________________________________\n"
+                + "Hello! I'm Friday\n"
+                + "What can I do for you?\n"
+                + "____________________________________________________________\n\n"
+                + "Commands:\n" + "list\n" + "bye\n" + "todo\n" + "deadline\n" + "event\n"
+                + "____________________________________________________________\n";
 
-        String byeMsg = "____________________________________________________________\n" +
-                "Bye. Hope to see you again soon!";
+        String byeMsg = "____________________________________________________________\n"
+                + "Bye. Hope to see you again soon!";
 
 
 
@@ -164,9 +162,9 @@ public class Friday {
                     System.out.println(String.format("  %s", iie.getMessage()));
                 }
 
-            } else if (command == CommandType.DEADLINE ||
-                    command == CommandType.TODO ||
-                    command == CommandType.EVENT) {
+            } else if (command == CommandType.DEADLINE
+                    || command == CommandType.TODO
+                    || command == CommandType.EVENT) {
 
                 try {
                     addTask(Parser.createTaskFromInput(input), tasks);

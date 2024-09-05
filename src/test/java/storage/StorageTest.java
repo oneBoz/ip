@@ -1,14 +1,16 @@
 package storage;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
+
 import task.Deadline;
 import task.Event;
 import task.Task;
 import task.Todo;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StorageTest {
 
     @Test

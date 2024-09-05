@@ -45,7 +45,6 @@ public abstract class Task {
     /**
      * Returns a string representation of the task.
      * The string includes the task's status icon and description.
-     *
      * @return a formatted string in the format "[statusIcon] description", where
      * {@code statusIcon} is "X" if the task is done or a space (" ") if not,
      * and {@code description} is the task's description.
@@ -96,4 +95,5 @@ public abstract class Task {
         return this.description.contains(text);
     }
 }
+
 

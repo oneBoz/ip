@@ -48,9 +48,9 @@ public class Event extends Task {
     @Override
     public String toString() {
         if (isInDateFormat) {
-            return "[E]" + super.toString() + " (from: " +
-                    fromInDateFormat.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " to: " +
-                    toInDateFormat.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
+            return "[E]" + super.toString() + " (from: "
+                    + fromInDateFormat.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " to: "
+                    + toInDateFormat.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ")";
         }
         return this.toRawString();
     }
