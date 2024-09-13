@@ -13,7 +13,6 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Duke duke = new Duke();
     private Friday friday = new Friday();
 
     @Override

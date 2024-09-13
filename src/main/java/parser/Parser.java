@@ -161,6 +161,23 @@ public class Parser {
 
     }
 
+    /**
+     * Processes the user's input and performs the corresponding action on the TaskList.
+     *
+     * @param input The command input from the user, which can include actions such as
+     *              LIST, MARK, UNMARK, DELETE, FIND, TODO, EVENT, DEADLINE, or BYE.
+     * @param tasks The TaskList that holds the tasks to be modified or queried.
+     *
+     * @return A String representing the outcome of the command, which could be:
+     *         - A farewell message (for BYE)
+     *         - A list of tasks (for LIST)
+     *         - Confirmation of task modification (for MARK, UNMARK, DELETE)
+     *         - The result of a task search (for FIND)
+     *         - Confirmation of task creation (for TODO, EVENT, DEADLINE)
+     *
+     * @throws InvalidInputFormatException If the input command is not valid or recognized.
+     * @throws InvalidIndexException If an operation requires a task index, but the index is out of bounds.
+     */
     public static String performActionOnTaskList(String input, TaskList tasks) throws InvalidInputFormatException, InvalidIndexException {
         CommandType command = createCommandFromInput(input);
         String desc = Parser.getDesc(input);

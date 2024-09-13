@@ -20,20 +20,14 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
-    private Duke duke;
     private Friday friday;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Monkey.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/Friday.png"));
+    private Image FridayImage = new Image(this.getClass().getResourceAsStream("/images/Friday.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-    }
-
-    /** Injects the Duke instance */
-    public void setDuke(Duke d) {
-        duke = d;
     }
 
     /** Injects the gui.Friday instance */
@@ -51,7 +45,7 @@ public class MainWindow extends AnchorPane {
         String response = friday.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getFridayDialog(response, FridayImage)
         );
         userInput.clear();
     }

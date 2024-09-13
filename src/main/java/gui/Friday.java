@@ -32,11 +32,9 @@ public class Friday {
      */
     public static void main(String[] args) {
         start();
-
     }
 
     private static void start() {
-
         String intro = "____________________________________________________________\n"
                 + "Hello! I'm Friday\n"
                 + "What can I do for you?\n"
@@ -69,8 +67,6 @@ public class Friday {
     }
 
     public String getResponse(String input) {
-
-
         TaskList tasks = read("Friday.txt");
 
         try {

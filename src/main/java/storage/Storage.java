@@ -29,13 +29,13 @@ public class Storage {
     }
 
     /**
-     * Reads tasks from a file and returns them as an {@code ArrayList} of {@code Task} objects.
+     * Reads tasks from a file and returns them as an {@code TaskList} of {@code Task} objects.
      * The file is read line by line, and each line is parsed to create the appropriate task
      * based on its type (TODO, DEADLINE, or EVENT). If a line indicates that a task is marked as done,
      * the corresponding task is marked as completed. If the file does not exist, it is created.
      * In case of any errors during file operations, an error message is printed.
      *
-     * @return an {@code ArrayList} containing the tasks read from the file
+     * @return an {@code TaskList} containing the tasks read from the file
      */
     public TaskList read() {
         try {
