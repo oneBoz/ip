@@ -46,6 +46,7 @@ public class Friday {
 
         boolean exited = false;
         TaskList tasks = read("Friday.txt");
+        assert tasks != null : "tasks cannot be null!";
         System.out.println(intro);
 
 
@@ -55,6 +56,7 @@ public class Friday {
             try {
                 System.out.println("____________________________________________________________\n");
                 System.out.println(Parser.performActionOnTaskList(input, tasks));
+                assert Parser.createCommandFromInput(input) != null: "command created cannot be null!";
                 if (Parser.createCommandFromInput(input) == CommandType.BYE) {
                     exited = true;
                     save("Friday.txt", tasks);
@@ -72,6 +74,7 @@ public class Friday {
 
 
         TaskList tasks = read("Friday.txt");
+        assert tasks != null : "tasks cannot be null!";
 
         try {
             String response = Parser.performActionOnTaskList(input, tasks);
