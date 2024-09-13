@@ -10,6 +10,7 @@ import java.util.Scanner;
 import task.Deadline;
 import task.Event;
 import task.Task;
+import task.TaskList;
 import task.Todo;
 
 public class Storage {
@@ -36,11 +37,11 @@ public class Storage {
      *
      * @return an {@code ArrayList} containing the tasks read from the file
      */
-    public ArrayList<Task> read() {
+    public TaskList read() {
         try {
             System.out.println("____________________________________________________________\nRetrieving inputs ...");
             Scanner sc = new Scanner(file);
-            ArrayList<Task> out = new ArrayList<>();
+            TaskList tasks = new TaskList();
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 switch (line.charAt(1)) {
@@ -49,7 +50,7 @@ public class Storage {
                     if (line.charAt(4) == 'X') {
                         t.markAsDone();
                     }
-                    out.add(t);
+                    tasks.addTask(t);
                     break;
                 case 'D':
                     String[] dtmp = line.split(" \\(by: ");
@@ -58,7 +59,7 @@ public class Storage {
                     if (line.charAt(4) == 'X') {
                         d.markAsDone();
                     }
-                    out.add(d);
+                    tasks.addTask(d);
                     break;
                 case 'E':
                     String[] etmp = line.split(" \\(from: ");
@@ -69,7 +70,7 @@ public class Storage {
                     if (line.charAt(4) == 'X') {
                         e.markAsDone();
                     }
-                    out.add(e);
+                    tasks.addTask(e);
                     break;
                 default:
                     break;
@@ -79,7 +80,7 @@ public class Storage {
             sc.close();
 
 
-            return out;
+            return tasks;
         } catch (FileNotFoundException fnfe) {
             try {
                 FileWriter fw = new FileWriter(file);
@@ -91,7 +92,7 @@ public class Storage {
 
 
         }
-        return new ArrayList<>();
+        return new TaskList();
 
     }
 
@@ -103,7 +104,7 @@ public class Storage {
      *
      * @param tasks the list of {@code Task} objects to be written to the file
      */
-    public void write(ArrayList<Task> tasks) {
+    public void write(TaskList tasks) {
         try {
             FileWriter fw = new FileWriter(file);
             StringBuilder sb = new StringBuilder();

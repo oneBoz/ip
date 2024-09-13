@@ -1,13 +1,12 @@
 package gui;
 
-import java.util.ArrayList;
 
 import enumeration.CommandType;
 import exception.InvalidIndexException;
 import exception.InvalidInputFormatException;
 import parser.Parser;
 import storage.Storage;
-import task.Task;
+import task.TaskList;
 
 /**
  * @author A0272287W
@@ -15,79 +14,14 @@ import task.Task;
  */
 public class Friday {
 
-
-    private static void addTask(Task t, ArrayList<Task> tasks) {
-        tasks.add(t);
-        System.out.println("____________________________________________________________");
-        System.out.println(" Got it. I've added this task: ");
-        System.out.println(String.format("  %s", t));
-        System.out.println(String.format(" Now you have %d tasks in the list.", tasks.size()));
-    }
-
-    private static void listTasks(ArrayList<Task> tasks) {
-
-        System.out.println("____________________________________________________________");
-        System.out.println("Here are the tasks in your list: ");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
-        }
-
-    }
-
-    private static void findTasks(ArrayList<Task> tasks, String text) {
-
-        System.out.println("____________________________________________________________");
-        System.out.println("Here are the matching tasks in your list: ");
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).contains(text)) {
-                System.out.println(String.format(" %d. %s", i + 1, tasks.get(i)));
-            }
-        }
-
-    }
-
-    private static void markTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException {
-        if (loc < 0 || loc >= tasks.size()) {
-            throw new InvalidIndexException("Please enter a valid index!");
-        }
-        tasks.get(loc).markAsDone();
-        System.out.println("____________________________________________________________");
-        System.out.println(" Nice! I've marked this task as done:");
-        System.out.println(String.format("    %s", tasks.get(loc)));
-    }
-
-    private static void unMarkTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException {
-        if (loc < 0 || loc >= tasks.size()) {
-            throw new InvalidIndexException("Please enter a valid index!");
-        }
-        tasks.get(loc).unmark();
-        System.out.println("____________________________________________________________");
-        System.out.println(" OK, I've marked this task as not done yet:");
-        System.out.println(String.format("   %s", tasks.get(loc)));
-    }
-
-    private static void deleteTask(ArrayList<Task> tasks, int loc) throws InvalidIndexException {
-        if (loc < 0 || loc >= tasks.size()) {
-            throw new InvalidIndexException("Please enter a valid index!");
-        }
-        Task tmp = tasks.get(loc);
-        tasks.remove(loc);
-        System.out.println("____________________________________________________________");
-        System.out.println(" Noted. I've removed this task:");
-        System.out.println(String.format("   %s", tmp));
-        System.out.println(String.format(" Now you have %d tasks in the list.", tasks.size()));
-    }
-
-
-    private static void save(String filepath, ArrayList<Task> tasks) {
+    private static void save(String filepath, TaskList tasks) {
         Storage storage = new Storage(filepath);
         storage.write(tasks);
     }
 
-    private static ArrayList<Task> read(String filepath) {
+    private static TaskList read(String filepath) {
         Storage storage = new Storage(filepath);
-        ArrayList<Task> data = storage.read();
-        return data;
+        return storage.read();
     }
 
     /**
@@ -104,95 +38,31 @@ public class Friday {
     private static void start() {
 
         String intro = "____________________________________________________________\n"
-                + "Hello! I'm gui.Friday\n"
+                + "Hello! I'm Friday\n"
                 + "What can I do for you?\n"
                 + "____________________________________________________________\n\n"
                 + "Commands:\n" + "list\n" + "bye\n" + "todo\n" + "deadline\n" + "event\n"
                 + "____________________________________________________________\n";
 
-        String byeMsg = "____________________________________________________________\n"
-                + "Bye. Hope to see you again soon!";
-
-
-
-
         boolean exited = false;
-        ArrayList<Task> tasks = read("gui.Friday.txt");
+        TaskList tasks = read("Friday.txt");
         System.out.println(intro);
 
 
         while (!exited) {
+            System.out.println("____________________________________________________________\n");
             String input = Parser.scan();
-            CommandType command;
             try {
-                command = Parser.createCommandFromInput(input);
-            } catch (InvalidInputFormatException iife) {
-                System.out.println("____________________________________________________________");
-                System.out.println(String.format("  %s", iife.getMessage()));
-                System.out.println("____________________________________________________________");
-
-                continue;
+                System.out.println("____________________________________________________________\n");
+                System.out.println(Parser.performActionOnTaskList(input, tasks));
+                if (Parser.createCommandFromInput(input) == CommandType.BYE) {
+                    exited = true;
+                    save("Friday.txt", tasks);
+                }
+            } catch (InvalidIndexException | InvalidInputFormatException e) {
+                System.out.println(e.getMessage());
             }
-
-            System.out.println(command);
-            String desc = Parser.getDesc(input);
-
-            if (command == CommandType.BYE) {
-                System.out.println(byeMsg);
-                save("gui.Friday.txt", tasks);
-                exited = true;
-
-            } else if (command == CommandType.LIST) {
-
-                listTasks(tasks);
-
-
-            } else if (command == CommandType.MARK) {
-
-                try {
-                    markTask(tasks, Integer.valueOf(desc) - 1);
-                } catch (InvalidIndexException iie) {
-
-                    System.out.println("____________________________________________________________");
-                    System.out.println(String.format("  %s", iie.getMessage()));
-                }
-
-            } else if (command == CommandType.UNMARK) {
-
-                try {
-                    unMarkTask(tasks, Integer.valueOf(desc) - 1);
-                } catch (InvalidIndexException iie) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(String.format("  %s", iie.getMessage()));
-                }
-
-            } else if (command == CommandType.DEADLINE
-                    || command == CommandType.TODO
-                    || command == CommandType.EVENT) {
-
-                try {
-                    addTask(Parser.createTaskFromInput(input), tasks);
-                } catch (InvalidInputFormatException iife) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(String.format("  %s", iife.getMessage()));
-                }
-
-
-            } else if (command == CommandType.DELETE) {
-
-                try {
-                    deleteTask(tasks, Integer.valueOf(desc) - 1);
-                } catch (InvalidIndexException iie) {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(String.format("  %s", iie.getMessage()));
-                }
-
-            } else if (command == CommandType.FIND) {
-                findTasks(tasks, desc);
-            }
-
-
-            System.out.println("____________________________________________________________");
+            System.out.println("____________________________________________________________\n");
 
         }
 
@@ -200,107 +70,17 @@ public class Friday {
 
     public String getResponse(String input) {
 
-        String response = "";
-        String byeMsg = "Bye. Hope to see you again soon!";
 
-        ArrayList<Task> tasks = read("gui.Friday.txt");
-        CommandType command;
+        TaskList tasks = read("Friday.txt");
+
         try {
-            command = Parser.createCommandFromInput(input);
-        } catch (InvalidInputFormatException iife) {
-            return iife.getMessage();
+            String response = Parser.performActionOnTaskList(input, tasks);
+            save("Friday.txt", tasks);
+            return response;
+        } catch (InvalidIndexException | InvalidInputFormatException e) {
+            return e.getMessage();
         }
 
-        String desc = Parser.getDesc(input);
-
-        if (command == CommandType.BYE) {
-            response = byeMsg;
-
-        } else if (command == CommandType.LIST) {
-
-            response = "Here are the tasks in your list: \n";
-            for (int i = 0; i < tasks.size(); i++) {
-                response += String.format(" %d. %s\n", i + 1, tasks.get(i));
-            }
-
-
-        } else if (command == CommandType.MARK) {
-
-            try {
-                int loc = Integer.valueOf(desc) - 1;
-                if (loc < 0 || loc >= tasks.size()) {
-                    throw new InvalidIndexException("Please enter a valid index!");
-                }
-                tasks.get(loc).markAsDone();
-                response = " Nice! I've marked this task as done:\n";
-                response += String.format("    %s\n", tasks.get(loc));
-
-            } catch (InvalidIndexException iie) {
-
-                return iie.getMessage();
-            }
-
-        } else if (command == CommandType.UNMARK) {
-
-            try {
-                int loc = Integer.valueOf(desc) - 1;
-                if (loc < 0 || loc >= tasks.size()) {
-                    throw new InvalidIndexException("Please enter a valid index!");
-                }
-                tasks.get(loc).unmark();
-                response = " OK, I've marked this task as not done yet:\n";
-                response += String.format("   %s", tasks.get(loc));
-            } catch (InvalidIndexException iie) {
-
-                return iie.getMessage();
-            }
-
-        } else if (command == CommandType.DEADLINE
-                || command == CommandType.TODO
-                || command == CommandType.EVENT) {
-
-            try {
-                Task t = Parser.createTaskFromInput(input);
-                tasks.add(t);
-                response = " Got it. I've added this task: \n"
-                        + String.format("  %s\n", t)
-                        + String.format(" Now you have %d tasks in the list.", tasks.size());
-            } catch (InvalidInputFormatException iife) {
-                return iife.getMessage();
-            }
-
-
-        } else if (command == CommandType.DELETE) {
-
-            try {
-                int loc = Integer.valueOf(desc) - 1;
-                if (loc < 0 || loc >= tasks.size()) {
-                    throw new InvalidIndexException("Please enter a valid index!");
-                }
-                Task tmp = tasks.get(loc);
-                tasks.remove(loc);
-                response = " Noted. I've removed this task:\n"
-                        + String.format("   %s\n", tmp)
-                        + String.format(" Now you have %d tasks in the list.", tasks.size());
-
-            } catch (InvalidIndexException iie) {
-                return iie.getMessage();
-
-            }
-
-        } else if (command == CommandType.FIND) {
-            String text = desc;
-            response = "Here are the matching tasks in your list: \n";
-            for (int i = 0; i < tasks.size(); i++) {
-                if (tasks.get(i).contains(text)) {
-                    response += String.format(" %d. %s\n", i + 1, tasks.get(i));
-                }
-            }
-
-        }
-
-        save("gui.Friday.txt", tasks);
-        return response;
     }
 
 }

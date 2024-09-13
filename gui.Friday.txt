@@ -1,3 +1,0 @@
-[T][X] hi
-[T][X] read
-[E][ ] yap (from: tues to: fri)

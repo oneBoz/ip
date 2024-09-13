@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-
 import enumeration.CommandType;
+import exception.InvalidIndexException;
 import exception.InvalidInputFormatException;
 import task.Deadline;
 import task.Event;
 import task.Task;
+import task.TaskList;
 import task.Todo;
 
 
@@ -129,30 +130,62 @@ public class Parser {
     public static Task createTaskFromInput(String input) throws InvalidInputFormatException {
         CommandType command = createCommandFromInput(input);
         String desc = getDesc(input);
-        if (command == CommandType.TODO) {
+        switch (command) {
+        case TODO:
+            if (desc.trim().length() < 2) {
+                throw new InvalidInputFormatException("Please enter a valid command!");
+            }
             return new Todo(desc);
-        } else if (command == CommandType.EVENT) {
-            String[] e = desc.split("/from");
-            if (e.length < 2) {
+
+        case EVENT:
+            String[] commandAndPeriod = desc.split("/from");
+            if (commandAndPeriod.length < 2) {
                 throw new InvalidInputFormatException("Please enter a valid command!");
             }
-            String[] timing = e[1].split("/to");
-            if (timing.length < 2) {
+            String[] period = commandAndPeriod[1].split("/to");
+            if (period.length < 2) {
                 throw new InvalidInputFormatException("Please enter a valid command!");
             }
-            return new Event(e[0].trim(), timing[0].trim(), timing[1].trim());
-        } else if (command == CommandType.DEADLINE) {
-            String[] dl = desc.split("/by");
-            if (dl.length < 2) {
+            return new Event(commandAndPeriod[0].trim(), period[0].trim(), period[1].trim());
+
+        case DEADLINE:
+            String[] commandAndBy = desc.split("/by");
+            if (commandAndBy.length < 2) {
                 throw new InvalidInputFormatException("Please enter a valid command!");
             }
-            return new Deadline(dl[0].trim(), dl[1].trim());
-        } else {
+            return new Deadline(commandAndBy[0].trim(), commandAndBy[1].trim());
+
+        default:
             throw new InvalidInputFormatException("Error creating Task!");
         }
+
     }
 
+    public static String performActionOnTaskList(String input, TaskList tasks) throws InvalidInputFormatException, InvalidIndexException {
+        CommandType command = createCommandFromInput(input);
+        String desc = Parser.getDesc(input);
 
-
+        switch (command) {
+        case BYE:
+            return "  Bye. Hope to see you again soon!";
+        case LIST:
+            return tasks.list();
+        case MARK:
+            return tasks.markTask(Integer.parseInt(desc) - 1);
+        case UNMARK:
+            return tasks.unMarkTask(Integer.parseInt(desc) - 1);
+        case DELETE:
+            return tasks.deleteTask(Integer.parseInt(desc) - 1);
+        case FIND:
+            return tasks.findTasks(desc);
+        case TODO:
+        case EVENT:
+        case DEADLINE:
+            Task task = createTaskFromInput(input);
+            return tasks.addTask(task);
+        default:
+            throw new InvalidInputFormatException("Please enter a valid command!");
+        }
+    }
 
 }
