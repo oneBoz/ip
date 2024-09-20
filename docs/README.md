@@ -20,7 +20,7 @@ Friday is a friendly chatbot that aims to help organise your day by keeping trac
 
 1. Ensure you have Java 17 or above installed in your Computer.
 2. Download the .jar from [here](https://github.com/IsaacPangTH/ip/releases).
-3. Copy the file to the folder you want to use as the home folder for Him.
+3. Copy the file to the folder you want to use as the home folder for Friday.
 4. Open a command terminal, cd into the folder you put the jar file in, and use the `java -jar Friday.jar` command to run
    the
    application.
