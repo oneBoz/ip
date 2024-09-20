@@ -188,11 +188,23 @@ public class Parser {
         case LIST:
             return tasks.list();
         case MARK:
-            return tasks.markTask(Integer.parseInt(desc) - 1);
+            try {
+                return tasks.markTask(Integer.parseInt(desc) - 1);
+            } catch (NumberFormatException e) {
+                return "Invalid input: Please provide a valid task number.";
+            }
         case UNMARK:
-            return tasks.unMarkTask(Integer.parseInt(desc) - 1);
+            try {
+                return tasks.unMarkTask(Integer.parseInt(desc) - 1);
+            } catch (NumberFormatException e) {
+                return "Invalid input: Please provide a valid task number.";
+            }
         case DELETE:
-            return tasks.deleteTask(Integer.parseInt(desc) - 1);
+            try {
+                return tasks.deleteTask(Integer.parseInt(desc) - 1);
+            } catch (NumberFormatException e) {
+                return "Invalid input: Please provide a valid task number.";
+            }
         case FIND:
             return tasks.findTasks(desc);
         case TODO:
