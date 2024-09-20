@@ -25,6 +25,8 @@ public class Storage {
      * @param filepath the path to the file used for storing tasks
      */
     public Storage(String filepath) {
+        File path = new File("data");
+        path.mkdir();
         file = new File(filepath);
     }
 

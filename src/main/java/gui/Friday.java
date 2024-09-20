@@ -14,6 +14,8 @@ import task.TaskList;
  */
 public class Friday {
 
+    private final static String FILE_PATH = "data/Friday.txt";
+
     private static void save(String filepath, TaskList tasks) {
         Storage storage = new Storage(filepath);
         storage.write(tasks);
@@ -24,6 +26,12 @@ public class Friday {
         return storage.read();
     }
 
+
+    public static String getIntro() {
+        return "Hello! I'm Friday\n"
+                + "What can I do for you?\n\n"
+                + "Commands:\nlist\nbye\ntodo\ndeadline\nevent\nmark\nunmark\ndelete\nfind";
+    }
     /**
      * The main method serves as the entry point for the application.
      * It initiates the program by calling the {@code start} method.
@@ -36,14 +44,11 @@ public class Friday {
 
     private static void start() {
         String intro = "____________________________________________________________\n"
-                + "Hello! I'm Friday\n"
-                + "What can I do for you?\n"
-                + "____________________________________________________________\n\n"
-                + "Commands:\n" + "list\n" + "bye\n" + "todo\n" + "deadline\n" + "event\n"
+                + getIntro()
                 + "____________________________________________________________\n";
 
         boolean exited = false;
-        TaskList tasks = read("Friday.txt");
+        TaskList tasks = read(FILE_PATH);
         assert tasks != null : "tasks cannot be null!";
         System.out.println(intro);
 
@@ -57,7 +62,7 @@ public class Friday {
                 assert Parser.createCommandFromInput(input) != null: "command created cannot be null!";
                 if (Parser.createCommandFromInput(input) == CommandType.BYE) {
                     exited = true;
-                    save("Friday.txt", tasks);
+                    save(FILE_PATH, tasks);
                 }
             } catch (InvalidIndexException | InvalidInputFormatException e) {
                 System.out.println(e.getMessage());
@@ -69,12 +74,12 @@ public class Friday {
     }
 
     public String getResponse(String input) {
-        TaskList tasks = read("Friday.txt");
+        TaskList tasks = read(FILE_PATH);
         assert tasks != null : "tasks cannot be null!";
 
         try {
             String response = Parser.performActionOnTaskList(input, tasks);
-            save("Friday.txt", tasks);
+            save(FILE_PATH, tasks);
             return response;
         } catch (InvalidIndexException | InvalidInputFormatException e) {
             return e.getMessage();
